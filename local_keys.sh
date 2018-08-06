@@ -1,3 +1,5 @@
+#!/bin/zsh
+
 # Local eos
 alias cleos='docker exec local_eosio /opt/eosio/bin/cleos --wallet-url http://localhost:8888'
 export EOSIOKEY=5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3
@@ -12,7 +14,7 @@ prikey() {
     grep Private .$1 | sed 's/Private key: //g' 
 }
 
-if [[ "$@" = "new" ]]; then
+if [[ "$@" == "new" ]]; then
     echo "generation new wallet&key"
 
     rm -f ./local_data/*.wallet
