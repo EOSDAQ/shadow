@@ -21,28 +21,23 @@ if [[ "$@" == "new" ]]; then
     rm -f ./local_data/*.wallet
     echo `pwd` > ~/.local_eos
 
-    # wallet gen
+    # master
     cleos wallet create 2>&1 > ${LOCAL_EOS}/.master
-    cleos wallet create -n wall1 2>&1 > ${LOCAL_EOS}/.wall1
-    cleos wallet create -n wall2 2>&1 > ${LOCAL_EOS}/.wall2
-    cleos wallet create -n wall3 2>&1 > ${LOCAL_EOS}/.wall3
-    cleos wallet create -n wall4 2>&1 > ${LOCAL_EOS}/.wall4
-
-    # key gen
-    cleos create key 2>&1 > ${LOCAL_EOS}/.key1
-    cleos create key 2>&1 > ${LOCAL_EOS}/.key2
-    cleos create key 2>&1 > ${LOCAL_EOS}/.key3
-    cleos create key 2>&1 > ${LOCAL_EOS}/.key4
-
     cleos wallet import --private-key ${EOSIOKEY}
-    cleos wallet import -n wall1 --private-key `prikey key1`
-    cleos wallet import -n wall2 --private-key `prikey key2`
-    cleos wallet import -n wall3 --private-key `prikey key3`
-    cleos wallet import -n wall4 --private-key `prikey key4`
+
+    for N in {1..10}
+    do
+        # wallet gen
+        cleos wallet create -n wall${N} 2>&1 > ${LOCAL_EOS}/.wall$N
+        # key gen
+        cleos create key 2>&1 > ${LOCAL_EOS}/.key$N
+        # import
+        cleos wallet import -n wall$N --private-key `prikey key${N}`
+    done
 else
     cleos wallet unlock --password `openwallet master`
-    cleos wallet unlock --password `openwallet wall1` -n wall1
-    cleos wallet unlock --password `openwallet wall2` -n wall2
-    cleos wallet unlock --password `openwallet wall3` -n wall3
-    cleos wallet unlock --password `openwallet wall4` -n wall4
+    for N in {1..10}
+    do
+        cleos wallet unlock --password `openwallet wall${N}` -n wall$N
+    done
 fi
