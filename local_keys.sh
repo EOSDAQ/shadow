@@ -25,7 +25,7 @@ if [[ "$@" == "new" ]]; then
     cleos wallet create 2>&1 > ${LOCAL_EOS}/.master
     cleos wallet import --private-key ${EOSIOKEY}
 
-    for N in {1..10}
+    for N in {1..40}
     do
         # wallet gen
         cleos wallet create -n wall${N} 2>&1 > ${LOCAL_EOS}/.wall$N
@@ -36,7 +36,7 @@ if [[ "$@" == "new" ]]; then
     done
 else
     cleos wallet unlock --password `openwallet master`
-    for N in {1..10}
+    for N in {1..40}
     do
         cleos wallet unlock --password `openwallet wall${N}` -n wall$N
     done
