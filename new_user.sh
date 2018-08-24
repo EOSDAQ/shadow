@@ -18,7 +18,7 @@ curl -X POST \
     "email":"newro@eosdaq.com",
     "emailHash" : "abcdef"
 }'
-key=`curl -X POST http://10.100.100.2:18889/api/v1/acct/user/$user/newOTP -H 'cache-control: no-cache' -H 'content-type: application/json' -H 'postman-token: e09a9f97-403e-f340-9911-df10612b0f5c' 2>&1 | grep OTPKey | awk -F'"' '{ print $4}'`
+key=`curl -X POST http://10.100.100.2:18889/api/v1/acct/user/$user/newOTP -H 'cache-control: no-cache' -H 'content-type: application/json' -H 'postman-token: e09a9f97-403e-f340-9911-df10612b0f5c' 2>&1 | grep otpKey | awk -F'"' '{ print $4}'`
 echo "key is " $key
 code=`oathtool --base32 --totp "$key" -d 6`
 curl -X POST http://10.100.100.2:18889/api/v1/acct/user/$user/validateOTP \
