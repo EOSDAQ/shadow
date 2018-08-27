@@ -1,7 +1,7 @@
 #!/bin/zsh
 
 # Local eos
-alias cleos='docker exec local_keosd cleos -u http://local_nodeos:8888 --wallet-url http://localhost:8900'
+alias cleos='sudo docker exec local_keosd cleos -u http://local_nodeos:8888 --wallet-url http://localhost:8900'
 export EOSIOKEY=5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3
 export LOCAL_EOS=`cat ~/.local_eos`
 
@@ -22,15 +22,15 @@ if [[ "$@" == "new" ]]; then
     echo `pwd` > ~/.local_eos
 
     # master
-    cleos wallet create 2>&1 > ${LOCAL_EOS}/.master
+    cleos wallet create --to-console 2>&1 > ${LOCAL_EOS}/.master
     cleos wallet import --private-key ${EOSIOKEY}
 
     for N in {1..40}
     do
         # wallet gen
-        cleos wallet create -n wall${N} 2>&1 > ${LOCAL_EOS}/.wall$N
+        cleos wallet create --to-console -n wall${N} 2>&1 > ${LOCAL_EOS}/.wall$N
         # key gen
-        cleos create key 2>&1 > ${LOCAL_EOS}/.key$N
+        cleos create key --to-console 2>&1 > ${LOCAL_EOS}/.key$N
         # import
         cleos wallet import -n wall$N --private-key `prikey key${N}`
     done

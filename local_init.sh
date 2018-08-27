@@ -1,3 +1,5 @@
+#!/bin/zsh
+
 . ./local_keys.sh $1
 
 # key gen
